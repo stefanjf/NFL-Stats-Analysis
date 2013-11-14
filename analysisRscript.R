@@ -38,11 +38,14 @@ for (k in 1:32){
    test <- mf[mf$team == teams[k], ]
    teamStats[k,2] <- sum(test$passing_yds, test$rushing_yds)
 }
+colnames(teamStats) <- c("team", "yards")
+teamStatsOrdered <- teamStats[order(teamStats$yards),]
+teamStatsOrdered<-data.frame(teamStatsOrdered, row.names=NULL)
+teamStatsOrdered[,3] <- c(1:32)
 
-passyds <- sum(test$passing_yds)
-
-
-
+p <- ggplot(data = teamStatsOrdered, aes(x=ordered, y=yards), labels=teamStatsOrdered$team) + geom_bar(stat="identity")
+p <- p + scale_x_discrete(limits=teamStatsOrdered$team)
+p
 
 
 
