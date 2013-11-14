@@ -1,6 +1,7 @@
 library(ggplot2)
 
 mydata = read.csv("~/Fantasy Football/2012.csv", sep=",", header=T)   
+mydata = read.csv("~/repos/nfl_modeling/2012.csv", sep=",", header=T) 
 
 plot(mydata$teams)
 
@@ -25,12 +26,21 @@ p <- ggplot(data = mydata, aes(x=mydata$team, y=cumsum(mydata$fumbles_lost))) + 
 qplot(x, y, data=, color=, shape=, size=, alpha=, geom=, method=, formula=, facets=, xlim=, ylim= xlab=, ylab=, main=, sub=)
 qplot(mydata$team, cumsum(mydata$fumbles_lost), data=mydata, xlim=c(1:10), y)
 
+#  test <- mf[mf$team == "SF", ]
 
 #makes new data frame and then adds subset to new data frame
 mf <- data.frame(mydata)
 mf[is.na(mf)] <- 0
 
-test <- mf[ mf$fumbles_lost == 8, ]
+teams <- c("ATL","BUF","CHI","CIN","CLE","BAL","DAL","DEN","DET","GB","TEN","IND","KC","OAK","STL","MIA","MIN","NE","NO","NYG","NYJ","PHI","PIT","SD","SF","SEA","ARI","TB","WAS","CAR","JAC","HOU")
+teamStats <- as.data.frame(teams)
+for (k in 1:32){
+   test <- mf[mf$team == teams[k], ]
+   teamStats[k,2] <- sum(test$passing_yds, test$rushing_yds)
+}
+
+passyds <- sum(test$passing_yds)
+
 
 
 
