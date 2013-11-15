@@ -4,8 +4,12 @@ library(ggplot2)
 #Wk1 = read.csv("~/repos/nfl_modeling/1.csv", sep=",", header=T) 
 
 #Quick way to load all csv files at once
-all_games <- list("~/repos/nfl_modeling/1.csv", "~/repos/nfl_modeling/2.csv", "~/repos/nfl_modeling/3.csv", "~/repos/nfl_modeling/4.csv", "~/repos/nfl_modeling/5.csv", "~/repos/nfl_modeling/6.csv", "~/repos/nfl_modeling/7.csv", "~/repos/nfl_modeling/8.csv", "~/repos/nfl_modeling/9.csv", "~/repos/nfl_modeling/10.csv", "~/repos/nfl_modeling/11.csv", "~/repos/nfl_modeling/12.csv", "~/repos/nfl_modeling/13.csv", "~/repos/nfl_modeling/14.csv", "~/repos/nfl_modeling/15.csv", "~/repos/nfl_modeling/16.csv")
-all_games <- lapply(my.path, read.csv)
+path <- list("~/repos/nfl_modeling/1.csv", "~/repos/nfl_modeling/2.csv", "~/repos/nfl_modeling/3.csv", "~/repos/nfl_modeling/4.csv", "~/repos/nfl_modeling/5.csv", "~/repos/nfl_modeling/6.csv", "~/repos/nfl_modeling/7.csv", "~/repos/nfl_modeling/8.csv", "~/repos/nfl_modeling/9.csv", "~/repos/nfl_modeling/10.csv", "~/repos/nfl_modeling/11.csv", "~/repos/nfl_modeling/12.csv", "~/repos/nfl_modeling/13.csv", "~/repos/nfl_modeling/14.csv", "~/repos/nfl_modeling/15.csv", "~/repos/nfl_modeling/16.csv")
+#Up:for Mac ... Bottom: for Win
+path <- list("~/Fantasy Football/1.csv", "~/Fantasy Football/2.csv", "~/Fantasy Football/3.csv", "~/Fantasy Football/4.csv", "~/Fantasy Football/5.csv", "~/Fantasy Football/6.csv", "~/Fantasy Football/7.csv", "~/Fantasy Football/8.csv", "~/Fantasy Football/9.csv", "~/Fantasy Football/10.csv", "~/Fantasy Football/11.csv", "~/Fantasy Football/12.csv", "~/Fantasy Football/13.csv", "~/Fantasy Football/14.csv", "~/Fantasy Football/15.csv", "~/Fantasy Football/16.csv")
+
+
+all_games <- lapply(path, read.csv)
 
 #This selects the game from the game list and converts it into a data frame.
 testdf <- as.data.frame(all_games[6])
@@ -28,16 +32,12 @@ for (k in 1:16){
   avg[k,2] <- sum(single_game_subset$passing_yds)#, test$rushing_yds)
 }
 
-#Graph boxplot
-p <- ggplot(data = avg, aes(x=team, y=yards), labels=avg$team) + geom_bar(stat="identity")
-p <- p + scale_x_discrete(breaks=team)
+#THIS GRAPH WORKS!!!
+p <- ggplot(data = avg, aes(x=c(1:16), y=avg$yards), labels=avg$team) + geom_line() + geom_point() + scale_x_discrete(labels=avg$team) + ylim(0,500)
 p
 
-#boxplot(data=avg,x=avg$yards, main="passing yards allowed", xlab="SF", ylab="Passing Yards")
 
-#p <- ggplot(data = avg, ylim=c(0,500), aes(x=c(1:16), y=avg)) + geom_line() + geom_point()
-#plot(c(1:16),avg$yards, main="title", sub="subtitle", xlab="X-axis label", ylab="y-axix label",
-#     xlim=c(1, 16), ylim=c(0, 500))
+#boxplot(data=avg,x=avg$yards, main="passing yards allowed", xlab="SF", ylab="Passing Yards")
 
 
 
