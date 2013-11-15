@@ -14,13 +14,14 @@ all_games <- lapply(path, read.csv)
 #This selects the game from the game list and converts it into a data frame.
 testdf <- as.data.frame(all_games[6])
 
-avg <- data.frame(1:15,1:15)
+avg <- data.frame(1:15,1:15,1:15)
 
 #colnames(avg[1]) <- "avg"
 colnames(avg)[1] <- "team"
-colnames(avg)[2] <- "yards"
-#avg$team <- as.factor(avg$team)
+colnames(avg)[2] <- "pass_yards"
+colnames(avg)[3] <- "rush_yards"
 
+#avg$team <- as.factor(avg$team)
 
 #get average of team stats over the season
 for (k in 1:16){
@@ -30,12 +31,14 @@ for (k in 1:16){
   single_game_subset <- single_game[single_game$team != "SF", ]
   avg[k,1] <- as.character(single_game_subset$team[1])  
   avg[k,2] <- sum(single_game_subset$passing_yds)#, test$rushing_yds)
+  avg[k,3] <- sum(single_game_subset$rushing_yds)#, test$rushing_yds)
+  
 }
 
 #THIS GRAPH WORKS!!!
-p <- ggplot(data = avg, aes(x=c(1:16), y=avg$yards), labels=avg$team) + geom_line() + geom_point() + scale_x_discrete(labels=avg$team) + ylim(0,500)
+p <- ggplot(data = avg, aes(x=c(1:16), y=avg$pass_yards), labels=avg$team) + geom_line() + geom_point() + scale_x_discrete(labels=avg$team) + ylim(0,500) +
+geom_line(data = avg, aes(x=c(1:16), y=avg$rush_yards, colour="#000099"),show_guide = FALSE) + geom_point(data = avg, aes(x=c(1:16), y=avg$rush_yards, colour="#000099"),show_guide = FALSE)
 p
-
 
 #boxplot(data=avg,x=avg$yards, main="passing yards allowed", xlab="SF", ylab="Passing Yards")
 
